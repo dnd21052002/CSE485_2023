@@ -46,13 +46,17 @@
             if (!empty($_POST["name"]) && !empty($_POST["age"]) && !empty($_POST["grade"])) {
                 // toàn bộ các trường dữ liệu đã được nhập
                 // xử lý dữ liệu
-                //Kiểm tra trùng lặp ID
-                // foreach ($students as $student) {
-                //     if ($student->getId() == $id) {
-                //         echo '<p class="text-danger">ID đã tồn tại</p>';
-                //         exit();
-                //     }
-                // }
+                //Kiểm tra trùng lặp dữ liệu
+                $name = $_POST["name"];
+                $age = $_POST["age"];
+                $grade = $_POST["grade"];
+
+                foreach ($students as $student) {
+                    if ($student->getName() == $name && $student->getAge() == $age && $student->getGrade() == $grade) {
+                        echo '<p class="text-danger">Sinh viên đã tồn tại</p>';
+                        exit();
+                    }
+                }
                 $id = count($students) + 1;
                 $name = $_POST["name"];
                 $age = $_POST["age"];
