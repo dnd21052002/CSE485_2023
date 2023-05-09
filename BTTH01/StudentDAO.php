@@ -4,7 +4,9 @@
         private $students = array();
         
         public function create(Student $student) {
-          array_push($this->students, $student);
+            $newID = count($this->students) + 1;
+            $student->setId($newID);
+            array_push($this->students, $student);
         }
         
         public function read($id) {
@@ -36,23 +38,34 @@
           return $this->students;
         }
         
-        public function readFile($filename) {
-            $file = fopen($filename, "r");
-            if ($file) {
-              while (($line = fgets($file)) !== false) {
-                $data = explode(",", $line);
-                $student = new Student();
-                $student->setId(trim($data[0]));
-                $student->setName(trim($data[1]));
-                $student->setAge(trim($data[2]));
-                // $student->setGrade(trim($data[3]));
-                array_push($this->students, $student);
-              }
-              fclose($file);
-            } else {
-              echo "Không thể mở file " . $filename;
+        //đọc file csv và lưu dữ liệu vào mảng students nhưng bỏ dòng đầu tiên
+        public function readFile($fileName) {
+          $file = fopen($fileName, "r");
+          $i = 0;
+          while (($line = fgetcsv($file)) !== false) {
+            if ($i > 0) {
+              $student = new Student($line[0], $line[1], $line[2], $line[3]);
+              array_push($this->students, $student);
             }
-            return $this->students;
+            $i++;
           }
+          fclose($file);
+          return $this->students;
+        }
+
+        //lưu dữ liệu từ mảng students vào file csv
+        public function saveFile($fileName) {
+          $file = fopen($fileName, "w");
+          $data = array();
+          foreach ($this->students as $student) {
+            array_push($data, array($student->getId(), $student->getName(), $student->getAge(), $student->getGrade()));
+          }
+          fputcsv($file, array("ID", "Name", "Age", "Grade"));
+          foreach ($data as $row) {
+            fputcsv($file, $row);
+          }
+          fclose($file);
+        }
       }
+
 ?>

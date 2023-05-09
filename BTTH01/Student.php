@@ -4,7 +4,14 @@
         private $name;
         private $age;
         private $grade;
-        
+
+        public function __construct($id, $name, $age, $grade) {
+          $this->id = $id;
+          $this->name = $name;
+          $this->age = $age;
+          $this->grade = $grade;
+        }
+
         public function getId() {
           return $this->id;
         }
@@ -29,12 +36,12 @@
           $this->age = $age;
         }
 
-        // public function getGrade() {
-        //   return $this->grade;
-        // }
+        public function getGrade() {
+          return $this->grade;
+        }
 
-        // public function setGrade($grade) {
-        //   $this->grade = $grade;
-        // }
+        public function setGrade($grade) {
+          $this->grade = $grade;
+        }
       }
 ?>
