@@ -19,6 +19,12 @@
     }
 </style>
 <body>
+    <?php
+        require_once "StudentDAO.php";
+
+        $studentDao = new StudentDAO();
+        $students = $studentDao->readFile("students.csv");
+    ?>
     <h1>Student Management</h1>
     <table class="table">
         <thead>
@@ -30,46 +36,17 @@
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($students as $student): ?>
             <tr>
-                <td scope="row">1</td>
-                <td>John Smith</td>
-                <td>12</td>
-                <td>6</td>
+                <td scope="row"><?php echo $student->getId(); ?></td>
+                <td><?php echo $student->getName(); ?></td>
+                <td><?php echo $student->getAge(); ?></td>
+                <td><?php echo $student->getGrade(); ?></td>
             </tr>
-            <tr>
-                <td scope="row">1</td>
-                <td>John Smith</td>
-                <td>12</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td scope="row">1</td>
-                <td>John Smith</td>
-                <td>12</td>
-                <td>6</td>
-            </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
-    <form action="index.php" method="post">
-        <div class="mb-3">
-            <label class="form-label" for="id">ID:</label>
-            <input class="form-control" type="text" id="id" name="id"><br>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="name">Tên:</label>
-            <input class="form-control col-md-2" type="text" id="name" name="name"><br>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="age">Tuổi:</label>
-            <input class="form-control" type="text" id="age" name="age"><br>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="grade">Lớp:</label>
-            <input class="form-control" type="text" id="grade" name="grade"><br>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <a href="add-student.php" class="btn btn-primary">Thêm mới</a>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>
