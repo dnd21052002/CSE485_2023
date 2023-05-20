@@ -36,15 +36,13 @@ CREATE TABLE IF NOT EXISTS `attendances` (
 -- Dumping structure for table tlu_attendance.classes
 CREATE TABLE IF NOT EXISTS `classes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
   `course_id` int(11) NOT NULL,
-  `instructor_id` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_classes_courses` (`course_id`),
-  KEY `FK_classes_instructors` (`instructor_id`),
-  CONSTRAINT `FK_classes_courses` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_classes_instructors` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_classes_courses` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -61,22 +59,6 @@ CREATE TABLE IF NOT EXISTS `courses` (
 
 -- Data exporting was unselected.
 
--- Dumping structure for table tlu_attendance.enrollments
-CREATE TABLE IF NOT EXISTS `enrollments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `course_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `semester` int(11) NOT NULL,
-  `phase` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_enrollments_courses` (`course_id`),
-  KEY `FK_enrollments_students` (`student_id`),
-  CONSTRAINT `FK_enrollments_courses` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_enrollments_students` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Data exporting was unselected.
-
 -- Dumping structure for table tlu_attendance.instructors
 CREATE TABLE IF NOT EXISTS `instructors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -85,6 +67,20 @@ CREATE TABLE IF NOT EXISTS `instructors` (
   `contact` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table tlu_attendance.instructors_classes
+CREATE TABLE IF NOT EXISTS `instructors_classes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `instructor_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK__instructors_classes_ins` (`instructor_id`),
+  KEY `FK__instructors_classes_cls` (`class_id`),
+  CONSTRAINT `FK__instructors_classes_cls` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK__instructors_classes_ins` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
