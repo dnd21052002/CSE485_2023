@@ -3,20 +3,20 @@
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
         try{
-            $sql_instructor = "SELECT * FROM instructors where id = 2";
+            $sql_instructor = "SELECT * FROM instructors where id = 1";
             $stmt_instructor = $pdo->prepare($sql_instructor);
             $stmt_instructor->execute();
             $instructor = $stmt_instructor->fetch(PDO::FETCH_ASSOC);
-
+            session_start();
+            $_SESSION['instructor_name'] = $instructor['name'];
             $sql_classes = "SELECT c.title AS course_name, cl.*
                             FROM courses c
                             INNER JOIN classes cl ON c.id = cl.course_id
                             INNER JOIN instructors_classes ic ON cl.id = ic.class_id
-                            WHERE ic.instructor_id = 2";
+                            WHERE ic.instructor_id = 1";
             $stmt_classes = $pdo->prepare($sql_classes);
             $stmt_classes->execute();
             $classes = $stmt_classes->fetchAll(PDO::FETCH_ASSOC);
-
         }
         catch(PDOException $e){
             echo $e->getMessage();
@@ -46,7 +46,7 @@
             </div>
         </nav>
         <div class="container">
-            <h2 class="text-center mt-4 mb-4">Các lớp học</h2>
+            <h2 class="text-center mt-4 mb-4">Trạng thái điểm danh</h2>
             <div class="row card_wrapper">
                 <?php
                     foreach($classes as $class){
@@ -54,7 +54,7 @@
                         echo '<div class="card-body d-flex flex-column justify-content-between">';
                         echo '<h5 class="card-title"> Khoá học: ' . $class['course_name']  . '</h5>';
                         echo '<p class="card-text">Lớp: ' . $class['name'] . '</p>';
-                        echo '<a href="course.php?id=' . $class['id'] . '" class="btn btn-primary">Xem chi tiết</a>';
+                        echo '<a href="../classes/index.php?id=' . $class['id'] . '" class="btn btn-primary">Quản lý</a>';
                         echo '</div>';
                         echo '</div>';
                     }
