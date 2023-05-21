@@ -2,11 +2,11 @@
     $type     = 'mysql';                 // Type of database
     $server   = 'localhost';             // Server the database is on
     $db       = 'tlu_attendance';             // Name of the database
-    $port     = '';                      // Port is usually 8889 in MAMP and 3306 in XAMPP
+    $port     = '3306';                      // Port is usually 8889 in MAMP and 3306 in XAMPP
     $charset  = 'utf8mb4';               // UTF-8 encoding using 4 bytes of data per character
 
     $username = 'root';         // Enter YOUR username here
-    $password = '123';         // Enter YOUR password here
+    $password = '2803';         // Enter YOUR password here
 
     $options  = [                        // Options for how PDO works
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
