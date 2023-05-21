@@ -17,8 +17,7 @@
     // DO NOT CHANGE ANYTHING BENEATH THIS LINE
     $dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset"; // Create DSN
     try {                                                               // Try following code
-        $pdo = new PDO($dsn, $username, $password, $options);           // Create PDO object
-        echo 'Connected to the database!';                              // If connected say so
+        $pdo = new PDO($dsn, $username, $password, $options);           // Create PDO object                              // If connected say so
     } catch (PDOException $e) {                                         // If exception thrown
         throw new PDOException($e->getMessage(), $e->getCode());        // Re-throw exception
 }

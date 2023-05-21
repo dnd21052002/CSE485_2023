@@ -1,6 +1,5 @@
 <?php
-    require_once "../includes/database-conection.php";
-
+    require_once '../includes/database-connection.php';
 ?>
 
 <!DOCTYPE html>
