@@ -1,3 +1,8 @@
+<?php
+    require_once "../includes/database-conection.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
