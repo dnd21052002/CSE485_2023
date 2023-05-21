@@ -67,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             <h3 class="text-uppercase">Dashboard</h3>
         </header>
         <div class="main">
-            <h3>calendar</h3>
+            <div class="d-flex justify-content-between">
+                <div><h3>calendar</h3></div>
+                <div><button class="btn btn-primary" type="submit">New event</button></div>
+            </div>
             <div id="calendar"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -82,8 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 </body>
 
 </html>

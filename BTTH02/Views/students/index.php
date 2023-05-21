@@ -91,31 +91,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     </tr>
                 </thead>
                 <?php
-            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                try {
-                    $sql_courses = "SELECT description FROM courses";
-                    $stmt_courses = $pdo->prepare($sql_courses);
-                    $stmt_courses->execute();
-                    $courses = $stmt_courses->fetchAll(PDO::FETCH_ASSOC);
-                } catch (PDOException $e) {
-                    echo $e->getMessage();
+                if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                    try {
+                        $sql_courses = "SELECT description FROM courses";
+                        $stmt_courses = $pdo->prepare($sql_courses);
+                        $stmt_courses->execute();
+                        $courses = $stmt_courses->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (PDOException $e) {
+                        echo $e->getMessage();
+                    }
                 }
-            }
 
-            foreach ($courses as $course) {
-                echo '<tbody>';
-                echo '<tr>';
-                echo '<th scope="row">1</th>';
-                echo '<th scope="row">' . $course['description'] . '</th>';
-                echo '<th scope="row">1</th>';
-                echo '<th scope="row">1</th>';
-                echo '<th scope="row">1</th>';
-                echo '</tr>';
-                echo '</tbody>';
-            }
-            ?>
+                foreach ($courses as $course) {
+                    echo '<tbody>';
+                    echo '<tr>';
+                    echo '<th scope="row">1</th>';
+                    echo '<th scope="row">' . $course['description'] . '</th>';
+                    echo '<th scope="row">1</th>';
+                    echo '<th scope="row">1</th>';
+                    echo '<th scope="row">1</th>';
+                    echo '</tr>';
+                    echo '</tbody>';
+                }
+                ?>
             </table>
-            
+
         </div>
     </div>
 
