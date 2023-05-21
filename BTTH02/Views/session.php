@@ -9,7 +9,7 @@ if ($row['role'] == 'students') {
   if ($_SESSION['role'] == 'students') {
     // Nếu vai trò của người dùng là sinh viên, chuyển hướng đến trang sinh viên
     header('Location: students/index.php');
-  } else if ($_SESSION['role'] == 'teacher') {
+  } else if ($_SESSION['role'] == 'instructors') {
     // Nếu vai trò của người dùng là giáo viên, chuyển hướng đến trang giáo viên
     header('Location: instructors/index.php');
   } else if ($_SESSION['role'] == 'admin') {
