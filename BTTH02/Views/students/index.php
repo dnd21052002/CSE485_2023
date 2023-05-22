@@ -2,12 +2,14 @@
 require_once '../../includes/database-connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    session_start();
+    $_SESSION['id'] = 1;
+    // $id = $_GET['id'];
     try {
-        $sql_courses = "SELECT name FROM students WHERE id = 1";
-        $stmt_courses = $pdo->prepare($sql_courses);
-        // $stmt_courses->bindParam(':id', $_GET['id']);
-        $stmt_courses->execute();
-        $courses = $stmt_courses->fetchAll(PDO::FETCH_ASSOC);
+        $sql_course = "SELECT name FROM students WHERE id = 1";
+        $stmt_course = $pdo->prepare($sql_course);
+        $stmt_course->execute();
+        $course = $stmt_course->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
@@ -44,18 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         <a class="nav-link" href="./dashbord.php">Dashboard</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Các khoá học của tôi</a>
+                        <a class="nav-link" href="./mycourse.php">Các khoá học của tôi</a>
                     </li>
 
                 </ul>
 
-                <div>
-                    <?php
-                    foreach ($students as $student) {
-                        echo '<h5 class="text-primary">' . "wellcom" . $name . '</h5>';
-                    }
-                    ?>
-                </div>
+
+            </div>
+            <p class="mb-0 me-3">
+                <?php
+                echo 'Xin chào, ' . $course['name'];
+                ?>
+            </p>
+            <a href="../logout.php">(logout)</a>
+
 
         </nav>
 
