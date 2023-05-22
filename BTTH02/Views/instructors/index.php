@@ -39,7 +39,8 @@
                 <div class="collapse navbar-collapse">
                     <a class="nav-link active " aria-current="page" href="index.php">Home</a>
                 </div>
-                <p class="mb-0">Welcome, <?php echo $instructor['name'] ?></p>
+                <p class="me-4 mb-0">Welcome, <?php echo $instructor['name'] ?></p>
+                <a href="../logout.php" class="text-black">Đăng xuất</a>
             </div>
         </nav>
         <div class="container">
