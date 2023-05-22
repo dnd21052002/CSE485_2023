@@ -46,7 +46,7 @@
                 <div class="d-flex text-center">
                     <p class="mb-0 me-4">Lớp học: <?= $cl['name'] ;?></p> 
                     <p class="me-4 mb-0">Giảng viên: <?php echo $_SESSION['instructor_name']; ?></p>
-                    <a href="../../logout.php" class="text-black">Đăng xuất</a>
+                    <a href="../logout.php" class="text-black">Đăng xuất</a>
                 </div>
             </div>
         </nav>

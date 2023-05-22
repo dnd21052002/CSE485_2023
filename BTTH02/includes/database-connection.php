@@ -6,7 +6,7 @@
     $charset  = 'utf8mb4';               // UTF-8 encoding using 4 bytes of data per character
 
     $username = 'root';         // Enter YOUR username here
-    $password = '2803';         // Enter YOUR password here
+    $password = '123';         // Enter YOUR password here
 
     $options  = [                        // Options for how PDO works
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
