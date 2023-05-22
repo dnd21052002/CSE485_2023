@@ -4,7 +4,7 @@ require_once '../../includes/database-connection.php';
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     try {
         $sql_courses = "SELECT * FROM courses 
-                        Inner JOIN enrollments ON courses.id = enrollments.course_id
+                        INNER JOIN enrollments ON courses.id = enrollments.course_id
                         WHERE enrollments.student_id = $_SESSION[id]";
         $stmt_courses = $pdo->prepare($sql_courses);
         $stmt_courses->execute();
