@@ -1,7 +1,7 @@
 <?php
 session_start(); // Khởi động phiên
 
-if (isset($_POST['dangnhap'])) { // Kiểm tra nút đăng nhập đã được nhấn hay chưa
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Kiểm tra nút đăng nhập đã được nhấn hay chưa
     include('..\includes\database-connection.php'); // Kết nối đến cơ sở dữ liệu
 
     $username = $_POST['username']; // Tên đăng nhập được nhập từ biểu mẫu
@@ -24,16 +24,17 @@ if (isset($_POST['dangnhap'])) { // Kiểm tra nút đăng nhập đã được 
     } else {
         // Lấy mật khẩu trong database ra
         $password_hash = $result['password'];
+        $_SESSION['username'] = $result['username'];
 
         // Kiểm tra xem hai mật khẩu có khớp với nhau hay không
         if ($password != $password_hash) {
             echo "Mật khẩu không đúng. Vui lòng nhập lại. <a href='javascript: history.go(-1)'>Trở lại</a>";
             exit;
         }
+    }
         $role = $result['role'];
 
 // Lưu tên đăng nhập vào biến session
-$_SESSION['username'] = $username;
 
 // Chuyển hướng đến trang thích hợp
 switch ($role) {
@@ -61,6 +62,3 @@ switch ($role) {
         echo "Xin chào <b>" .$username . "</b>. Bạn đã đăng nhập thành công. <a href=''>Thoát</a>";
         die(); // Kết thúc chương trình
     }
-
-    $connect->close(); // Đóng kết nối
-}
