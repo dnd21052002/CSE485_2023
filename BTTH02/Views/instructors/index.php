@@ -3,7 +3,7 @@
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
         try{
-            $sql_instructor = "SELECT * FROM instructors where id = 1";
+            $sql_instructor = "SELECT * FROM instructors where id = 3";
             $stmt_instructor = $pdo->prepare($sql_instructor);
             $stmt_instructor->execute();
             $instructor = $stmt_instructor->fetch(PDO::FETCH_ASSOC);
@@ -13,7 +13,7 @@
                             FROM courses c
                             INNER JOIN classes cl ON c.id = cl.course_id
                             INNER JOIN instructors_classes ic ON cl.id = ic.class_id
-                            WHERE ic.instructor_id = 1";
+                            WHERE ic.instructor_id = 3";
             $stmt_classes = $pdo->prepare($sql_classes);
             $stmt_classes->execute();
             $classes = $stmt_classes->fetchAll(PDO::FETCH_ASSOC);
@@ -36,17 +36,15 @@
         <nav class="navbar shadow navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.php">CodeError</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="collapse navbar-collapse">
                     <a class="nav-link active " aria-current="page" href="index.php">Home</a>
                 </div>
-                <p class="mb-0">Welcome, <?php echo $instructor['name'] ?></p>
+                <p class="me-4 mb-0">Welcome, <?php echo $instructor['name'] ?></p>
+                <a href="../logout.php" class="text-black">Đăng xuất</a>
             </div>
         </nav>
         <div class="container">
-            <h2 class="text-center mt-4 mb-4">Trạng thái điểm danh</h2>
+            <h2 class="text-center mt-4 mb-4">Danh sách lớp</h2>
             <div class="row card_wrapper">
                 <?php
                     foreach($classes as $class){
