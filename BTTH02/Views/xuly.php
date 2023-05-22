@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Kiểm tra nút đăng nhập đ�
         // Lấy mật khẩu trong database ra
         $password_hash = $result['password'];
         $_SESSION['username'] = $result['username'];
-
+        $_SESSION['id'] = $result['id'];
         // Kiểm tra xem hai mật khẩu có khớp với nhau hay không
         if ($password != $password_hash) {
             echo "Mật khẩu không đúng. Vui lòng nhập lại. <a href='javascript: history.go(-1)'>Trở lại</a>";

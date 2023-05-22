@@ -1,9 +1,17 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['username'])) {
+        header('Location: ../login.php');
+        exit();
+    }
+    ?>
+
+
+<?php
     require_once '../../includes/database-connection.php';
 
     if(isset($_GET['id'])){
         $class_id = $_GET['id'];
-        session_start();
         $_SESSION['class_id'] = $class_id;
         try{
             $sql_scs = "SELECT attendances.id, attendances.status, attendances.date, classes.name AS class_name, students.name AS student_name
@@ -41,7 +49,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.php">CodeError</a>
                 <div class="collapse navbar-collapse">
-                    <a class="nav-link active fw-bold" aria-current="page" href="../instructors/index.php">Home</a>
+                    <a class="nav-link active fw-bold" aria-current="page" href="../instructors/">Home</a>
                 </div>
                 <div class="d-flex text-center">
                     <p class="mb-0 me-4">Lớp học: <?= $cl['name'] ;?></p> 

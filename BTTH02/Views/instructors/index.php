@@ -10,7 +10,8 @@
     require_once '../../includes/database-connection.php';
 
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
-            $user_id = $_GET['id'];
+            if(isset($_GET['id'])) $user_id = $_GET['id'];
+            else $user_id = $_SESSION['id'];
             try{
                 $sql_instructor = "SELECT i.*
                                     FROM instructors i
@@ -20,6 +21,7 @@
                 $stmt_instructor->execute();
                 $instructor = $stmt_instructor->fetch(PDO::FETCH_ASSOC);
                 $_SESSION['instructor_name'] = $instructor['name'];
+                $_SESSION['instructor_id'] = $instructor['id'];
                 $sql_classes = "SELECT c.title AS course_name, cl.*
                                 FROM courses c
                                 INNER JOIN classes cl ON c.id = cl.course_id
@@ -48,7 +50,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.php">CodeError</a>
                 <div class="collapse navbar-collapse">
-                    <a class="nav-link active " aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link active " aria-current="page" href="./">Home</a>
                 </div>
                 <p class="me-4 mb-0">Welcome, <?php echo $instructor['name'] ?></p>
                 <a href="../logout.php" class="text-black">Đăng xuất</a>
