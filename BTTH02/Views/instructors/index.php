@@ -1,31 +1,38 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['username'])) {
+        header('Location: ../login.php');
+        exit();
+    }
+    ?>
+
+<?php
     require_once '../../includes/database-connection.php';
 
-    if($_SERVER['REQUEST_METHOD'] == 'GET'){
-        $user_id = $_GET['id'];
-        try{
-            $sql_instructor = "SELECT i.*
-                                FROM instructors i
-                                JOIN users u ON i.id = u.user_id
-                                where u.id = $user_id";
-            $stmt_instructor = $pdo->prepare($sql_instructor);
-            $stmt_instructor->execute();
-            $instructor = $stmt_instructor->fetch(PDO::FETCH_ASSOC);
-            session_start();
-            $_SESSION['instructor_name'] = $instructor['name'];
-            $sql_classes = "SELECT c.title AS course_name, cl.*
-                            FROM courses c
-                            INNER JOIN classes cl ON c.id = cl.course_id
-                            INNER JOIN instructors_classes ic ON cl.id = ic.class_id
-                            WHERE ic.instructor_id = $instructor[id]";
-            $stmt_classes = $pdo->prepare($sql_classes);
-            $stmt_classes->execute();
-            $classes = $stmt_classes->fetchAll(PDO::FETCH_ASSOC);
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $user_id = $_GET['id'];
+            try{
+                $sql_instructor = "SELECT i.*
+                                    FROM instructors i
+                                    JOIN users u ON i.id = u.user_id
+                                    where u.id = $user_id";
+                $stmt_instructor = $pdo->prepare($sql_instructor);
+                $stmt_instructor->execute();
+                $instructor = $stmt_instructor->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['instructor_name'] = $instructor['name'];
+                $sql_classes = "SELECT c.title AS course_name, cl.*
+                                FROM courses c
+                                INNER JOIN classes cl ON c.id = cl.course_id
+                                INNER JOIN instructors_classes ic ON cl.id = ic.class_id
+                                WHERE ic.instructor_id = $instructor[id]";
+                $stmt_classes = $pdo->prepare($sql_classes);
+                $stmt_classes->execute();
+                $classes = $stmt_classes->fetchAll(PDO::FETCH_ASSOC);
+            }
+            catch(PDOException $e){
+                echo $e->getMessage();
+            }
         }
-        catch(PDOException $e){
-            echo $e->getMessage();
-        }
-    }
 ?>
 
 <!doctype html>
