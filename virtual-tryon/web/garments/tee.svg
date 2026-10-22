@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" width="800" height="840">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d4a8a"/><stop offset="1" stop-color="#1f3466"/></linearGradient></defs>
+  <path d="M140 20 Q200 60 260 20 L330 50 L395 130 L340 165 L310 135 L310 410 L90 410 L90 135 L60 165 L5 130 L70 50 Z" fill="url(#g)"/>
+  <path d="M140 20 Q200 70 260 20 Q200 45 140 20 Z" fill="#16264d"/>
+  <rect x="90" y="190" width="220" height="16" fill="#f2c14e"/>
+  <text x="200" y="270" font-family="Arial Black,Arial" font-weight="900" font-size="44" fill="#f2f2f2" text-anchor="middle">CSE485</text>
+</svg>

@@ -1,0 +1,5 @@
+[
+  { "name": "Áo thun CSE485", "src": "garments/tee.svg", "type": "upper", "sleeveAngle": 55 },
+  { "name": "Hoodie đỏ", "src": "garments/hoodie.svg", "type": "upper", "sleeveAngle": 12 },
+  { "name": "Quần jean", "src": "garments/jeans.svg", "type": "lower", "sleeveAngle": 0 }
+]
