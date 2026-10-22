@@ -14,7 +14,7 @@ fvcore==0.1.5.post20221221
 cloudpickle==3.0.0
 omegaconf==2.3.0
 pycocotools==2.0.8
-matplotlib==3.9.1
+matplotlib==3.9.4
 fastapi==0.115.0
 uvicorn==0.30.6
 python-multipart==0.0.9
