@@ -2,3 +2,4 @@
 server/third_party/
 __pycache__/
 *.pyc
+server/certs/

@@ -37,6 +37,8 @@ USE_AUTOMASKER = os.environ.get("CATVTON_AUTOMASKER", "1") == "1"
 USE_COMPILE = os.environ.get("CATVTON_COMPILE", "0") == "1"
 SKIP_SAFETY = os.environ.get("CATVTON_SKIP_SAFETY", "0") == "1"
 PORT = int(os.environ.get("PORT", "8000"))
+# LAN=1: mở cho điện thoại cùng mạng truy cập, bật HTTPS tự ký (camera bắt buộc HTTPS)
+LAN = os.environ.get("LAN", "0") == "1"
 
 state = {"ready": False, "error": None, "automasker": False, "loading": False}
 pipeline = None
@@ -200,7 +202,74 @@ def on_error(_, exc: Exception):
 
 app.mount("/", StaticFiles(directory=WEB_DIR, html=True), name="web")
 
+def lan_ip() -> str:
+    import socket
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("10.255.255.255", 1))  # không gửi gói nào, chỉ để lấy IP card mạng
+        return s.getsockname()[0]
+    except OSError:
+        return "127.0.0.1"
+    finally:
+        s.close()
+
+
+def ensure_cert(ip: str):
+    """Tạo chứng chỉ HTTPS tự ký (lưu ở server/certs) cho truy cập qua LAN."""
+    import datetime
+    import ipaddress
+
+    from cryptography import x509
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import rsa
+    from cryptography.x509.oid import NameOID
+
+    cert_dir = ROOT / "certs"
+    cert_dir.mkdir(exist_ok=True)
+    key_path, cert_path = cert_dir / "key.pem", cert_dir / "cert.pem"
+    ip_file = cert_dir / "ip.txt"
+    if cert_path.exists() and ip_file.exists() and ip_file.read_text() == ip:
+        return str(key_path), str(cert_path)
+
+    key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "virtual-tryon.local")])
+    now = datetime.datetime.now(datetime.timezone.utc)
+    cert = (
+        x509.CertificateBuilder()
+        .subject_name(name)
+        .issuer_name(name)
+        .public_key(key.public_key())
+        .serial_number(x509.random_serial_number())
+        .not_valid_before(now - datetime.timedelta(days=1))
+        .not_valid_after(now + datetime.timedelta(days=825))
+        .add_extension(
+            x509.SubjectAlternativeName(
+                [x509.DNSName("localhost"), x509.IPAddress(ipaddress.ip_address(ip)),
+                 x509.IPAddress(ipaddress.ip_address("127.0.0.1"))]
+            ),
+            critical=False,
+        )
+        .sign(key, hashes.SHA256())
+    )
+    key_path.write_bytes(
+        key.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.TraditionalOpenSSL,
+                          serialization.NoEncryption())
+    )
+    cert_path.write_bytes(cert.public_bytes(serialization.Encoding.PEM))
+    ip_file.write_text(ip)
+    return str(key_path), str(cert_path)
+
+
 if __name__ == "__main__":
     threading.Thread(target=load_models, daemon=True).start()
-    print(f"Mở trình duyệt: http://localhost:{PORT}")
-    uvicorn.run(app, host="127.0.0.1", port=PORT, log_level="info")
+    if LAN:
+        ip = lan_ip()
+        key_file, cert_file = ensure_cert(ip)
+        print(f"Máy tính:   https://localhost:{PORT}")
+        print(f"Điện thoại: https://{ip}:{PORT}  (cùng Wi-Fi, chấp nhận cảnh báo chứng chỉ)")
+        uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="info",
+                    ssl_keyfile=key_file, ssl_certfile=cert_file)
+    else:
+        print(f"Mở trình duyệt: http://localhost:{PORT}")
+        uvicorn.run(app, host="127.0.0.1", port=PORT, log_level="info")
