@@ -8,7 +8,7 @@ PY=${PYTHON:-python3.9}
 $PY -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install torch==2.4.0 torchvision==0.19.0 --index-url https://download.pytorch.org/whl/cu121
+pip install torch==2.4.1 torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cu121
 pip install -r server/requirements.txt
 
 mkdir -p server/third_party
